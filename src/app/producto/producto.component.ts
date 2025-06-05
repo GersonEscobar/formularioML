@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductoRespuesta, ProductoService } from '../servicios/producto.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-producto',
@@ -21,21 +23,46 @@ export class ProductoComponent {
     });
   }
 
-   onSubmit() {
-    if (this.productoForm.valid) {
-      const producto = this.productoForm.value;
+  onSubmit() {
+  if (this.productoForm.valid) {
+    const producto = this.productoForm.value;
 
-      this.productoService.predecirPrecio(producto)
-        .subscribe({
-          next: (respuesta: ProductoRespuesta) => {
-            this.precioFinalCalculado = respuesta.precioFinal;
-          },
-          error: (err) => {
-            console.error('Error al llamar al API', err);
-            alert('Error al obtener el precio final');
-          }
+    Swal.fire({
+      title: 'Enviando...',
+      text: 'Calculando precio final',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    this.productoService.predecirPrecio(producto).subscribe({
+      next: (respuesta: ProductoRespuesta) => {
+        this.precioFinalCalculado = respuesta.precioFinal;
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Precio Calculado',
+          text: `El precio final es: Q ${respuesta.precioFinal.toFixed(2)}`,
         });
-    }
+      },
+      error: (err) => {
+        console.error('Error al llamar al API', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrió un error al obtener el precio final.',
+        });
+      }
+    });
+  } else {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Formulario incompleto',
+      text: 'Por favor, completa todos los campos requeridos.',
+    });
   }
+}
+
 
 }
