@@ -1,0 +1,25 @@
+<div class="container">
+  <h2>Formulario de Producto</h2>
+  <form [formGroup]="productoForm" (ngSubmit)="onSubmit()">
+
+    <label>Nombre:</label>
+    <input formControlName="nombre" type="text" />
+
+    <label>Marca:</label>
+    <input formControlName="marca" type="text" />
+
+    <label>Categoría:</label>
+    <input formControlName="categoria" type="text" />
+
+    <label>Tipo de Producto:</label>
+    <input formControlName="tipoProducto" type="text" />
+
+    <label>Precio Sugerido:</label>
+    <input formControlName="precioSugerido" type="number" step="0.01" />
+
+    <button type="submit" [disabled]="productoForm.invalid">Calcular</button>
+  </form>
+</div>
+<div *ngIf="precioFinalCalculado !== undefined">
+  <h3>Precio Final Estimado: {{ precioFinalCalculado | currency }}</h3>
+</div>
