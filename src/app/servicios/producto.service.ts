@@ -7,12 +7,11 @@ export interface Producto {
   marca: string;
   categoria: string;
   tipoProducto: string;
-  precioSugerido: number;
 }
 
 // Define interfaz para la respuesta del API
 export interface ProductoRespuesta {
-  precioFinal: number;
+  precio_sugerido: number;
 }
 
 @Injectable({
@@ -24,8 +23,15 @@ export class ProductoService {
 
   constructor(private http: HttpClient) { }
 
-  predecirPrecio(producto: Producto): Observable<ProductoRespuesta> {
-    return this.http.post<ProductoRespuesta>(this.apiUrl, producto);
-  }
+ predecirPrecio(producto: Producto): Observable<ProductoRespuesta> {
+  const payload = {
+    prod_name: producto.nombre,
+    prod_brand: producto.marca,
+    subcategory: producto.categoria,
+    tags: producto.tipoProducto
+  };
+
+  return this.http.post<ProductoRespuesta>(this.apiUrl, payload);
+}
 
 }

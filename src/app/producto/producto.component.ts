@@ -18,51 +18,48 @@ export class ProductoComponent {
       nombre: ['', Validators.required],
       marca: ['', Validators.required],
       categoria: ['', Validators.required],
-      tipoProducto: ['', Validators.required],
-      precioSugerido: [0, [Validators.required, Validators.min(0)]]
+      tipoProducto: ['', Validators.required]
     });
   }
 
   onSubmit() {
-  if (this.productoForm.valid) {
-    const producto = this.productoForm.value;
+    if (this.productoForm.valid) {
+      const producto = this.productoForm.value;
 
-    Swal.fire({
-      title: 'Enviando...',
-      text: 'Calculando precio final',
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      }
-    });
+      Swal.fire({
+        title: 'Enviando...',
+        text: 'Calculando precio final',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
 
-    this.productoService.predecirPrecio(producto).subscribe({
-      next: (respuesta: ProductoRespuesta) => {
-        this.precioFinalCalculado = respuesta.precioFinal;
+      this.productoService.predecirPrecio(producto).subscribe({
+        next: (respuesta: ProductoRespuesta) => {
+          this.precioFinalCalculado = respuesta.precio_sugerido;
 
-        Swal.fire({
-          icon: 'success',
-          title: 'Precio Calculado',
-          text: `El precio final es: Q ${respuesta.precioFinal.toFixed(2)}`,
-        });
-      },
-      error: (err) => {
-        console.error('Error al llamar al API', err);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Ocurrió un error al obtener el precio final.',
-        });
-      }
-    });
-  } else {
-    Swal.fire({
-      icon: 'warning',
-      title: 'Formulario incompleto',
-      text: 'Por favor, completa todos los campos requeridos.',
-    });
+          Swal.fire({
+            icon: 'success',
+            title: 'Precio Calculado',
+            html: `<h4>Q ${respuesta.precio_sugerido.toFixed(2)}</h4>`,
+          });
+        },
+        error: (err) => {
+          console.error('Error al llamar al API', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Ocurrió un error al obtener el precio final.',
+          });
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Formulario incompleto',
+        text: 'Por favor, completa todos los campos requeridos.',
+      });
+    }
   }
-}
-
-
 }
