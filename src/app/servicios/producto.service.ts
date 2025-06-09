@@ -20,8 +20,8 @@ export interface ProductoRespuesta {
 })
 export class ProductoService {
 
-  private apiUrl = 'http://tu-api.com/prediccion'; 
-  private  url = 'http://tu-api.com/guardar';
+  private apiUrl = 'http://localhost:8000/api/sugerir-precio'; 
+  private  url = 'http://localhost:8000/api/productos';
 
   constructor(private http: HttpClient) { }
 
