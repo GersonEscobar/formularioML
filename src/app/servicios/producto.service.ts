@@ -36,7 +36,7 @@ export class ProductoService {
   return this.http.post<ProductoRespuesta>(this.apiUrl, payload);
 }
 
-guardarProducto(producto: Producto): Observable<any> {
+/* guardarProducto(producto: Producto): Observable<any> {
   const payload = {
     prod_name: producto.nombre,
     prod_brand: producto.marca,
@@ -46,7 +46,11 @@ guardarProducto(producto: Producto): Observable<any> {
   };
 
   return this.http.post<any>(this.url, payload);
+} */
+guardarProducto(producto: any): Observable<any> {
+  return this.http.post<any>(this.url, producto);
 }
+
 
 
 }

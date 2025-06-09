@@ -68,12 +68,14 @@ export class ProductoComponent {
   }
 
 
-  onGuardar() {
-    
+onGuardar() {
   if (this.productoForm.valid && this.precioFinalCalculado !== undefined && this.precioFinalCalculado >= 0) {
-    const producto = {
-      ...this.productoForm.value,
-      precioSugerido: this.precioFinalCalculado
+    const productoEnviar = {
+      nombre: this.productoForm.value.nombre,
+      marca: this.productoForm.value.marca,
+      categoria: this.productoForm.value.categoria,
+      tags: this.productoForm.value.tipoProducto,
+      precio_sugerido: this.precioFinalCalculado
     };
 
     Swal.fire({
@@ -85,7 +87,7 @@ export class ProductoComponent {
       }
     });
 
-    this.productoService.guardarProducto(producto).subscribe({
+    this.productoService.guardarProducto(productoEnviar).subscribe({
       next: () => {
         Swal.fire({
           icon: 'success',
@@ -110,6 +112,7 @@ export class ProductoComponent {
     });
   }
 }
+
 
 
 }
