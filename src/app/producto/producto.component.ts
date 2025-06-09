@@ -19,7 +19,7 @@ export class ProductoComponent {
       marca: ['', Validators.required],
       categoria: ['', Validators.required],
       tipoProducto: ['', Validators.required],
-      precioFinal: [{value: null, disabled: false}, [Validators.required, Validators.min(0)]], 
+      precioFinal: [{value: null, disabled: true}, [Validators.required, Validators.min(0)]], 
     });
   }
 
@@ -39,7 +39,7 @@ export class ProductoComponent {
       this.productoService.predecirPrecio(producto).subscribe({
         next: (respuesta: ProductoRespuesta) => {
           this.precioFinalCalculado = respuesta.precio_sugerido;
-          this.productoForm.patchValue({ precioFinal: this.precioFinalCalculado });
+          this.productoForm.get('precioFinal')?.setValue(this.precioFinalCalculado);
           this.productoForm.get('precioFinal')?.enable();
 
           Swal.close();
