@@ -18,7 +18,8 @@ export class ProductoComponent {
       nombre: ['', Validators.required],
       marca: ['', Validators.required],
       categoria: ['', Validators.required],
-      tipoProducto: ['', Validators.required]
+      tipoProducto: ['', Validators.required],
+      precioFinal: [{value: null, disabled: false}, [Validators.required, Validators.min(0)]], 
     });
   }
 
@@ -38,6 +39,10 @@ export class ProductoComponent {
       this.productoService.predecirPrecio(producto).subscribe({
         next: (respuesta: ProductoRespuesta) => {
           this.precioFinalCalculado = respuesta.precio_sugerido;
+          this.productoForm.patchValue({ precioFinal: this.precioFinalCalculado });
+          this.productoForm.get('precioFinal')?.enable();
+
+          Swal.close();
 
           Swal.fire({
             icon: 'success',
@@ -62,4 +67,46 @@ export class ProductoComponent {
       });
     }
   }
+
+
+  onGuardar() {
+  if (this.productoForm.valid) {
+    const producto = this.productoForm.value;
+
+    Swal.fire({
+      title: 'Guardando...',
+      text: 'Enviando datos al servidor',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    this.productoService.guardarProducto(producto).subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Guardado exitoso',
+          text: 'El producto fue guardado correctamente.'
+        });
+      },
+      error: (err) => {
+        console.error('Error al guardar el producto', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo guardar el producto.'
+        });
+      }
+    });
+  } else {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Formulario incompleto',
+      text: 'Completa todos los campos antes de guardar.'
+    });
+  }
+}
+
+
 }

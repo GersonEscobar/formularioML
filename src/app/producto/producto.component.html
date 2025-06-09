@@ -27,11 +27,22 @@
         <button type="submit" class="btn btn-primary mt-3">
           Calcular
         </button>
+           <button *ngIf="precioFinalCalculado !== undefined"
+          type="button"
+          class="btn btn-success mt-3"
+          [disabled]="!productoForm.get('precioFinal')?.valid"
+          (click)="onGuardar()">
+    Guardar
+  </button>
+
       </div>
+
+      
     </form>
 
-    <div *ngIf="precioFinalCalculado !== undefined" class="alert alert-success mt-4 text-center">
-      <strong>Precio Final:</strong> {{ precioFinalCalculado | currency }}
+    <div *ngIf="precioFinalCalculado !== undefined"  class="alert alert-success mt-4 text-center">
+       <label for="precioFinal" class="form-label"><strong>Precio Final:</strong></label>
+  <input id="precioFinal" type="number" formControlName="precioFinal" class="form-control w-auto mx-auto" style="max-width: 200px;">
     </div>
   </div>
 </div>

@@ -19,7 +19,8 @@ export interface ProductoRespuesta {
 })
 export class ProductoService {
 
-  private apiUrl = 'http://tu-api.com/prediccion';  // Cambia a la URL real del API
+  private apiUrl = 'http://tu-api.com/prediccion'; 
+  private  url = 'http://tu-api.com/guardar';
 
   constructor(private http: HttpClient) { }
 
@@ -33,5 +34,17 @@ export class ProductoService {
 
   return this.http.post<ProductoRespuesta>(this.apiUrl, payload);
 }
+
+guardarProducto(producto: Producto): Observable<any> {
+  const payload = {
+    prod_name: producto.nombre,
+    prod_brand: producto.marca,
+    subcategory: producto.categoria,
+    tags: producto.tipoProducto
+  };
+
+  return this.http.post<any>(this.url, payload);
+}
+
 
 }
