@@ -7,6 +7,7 @@ export interface Producto {
   marca: string;
   categoria: string;
   tipoProducto: string;
+  precioSugerido?: number
 }
 
 // Define interfaz para la respuesta del API
@@ -40,7 +41,8 @@ guardarProducto(producto: Producto): Observable<any> {
     prod_name: producto.nombre,
     prod_brand: producto.marca,
     subcategory: producto.categoria,
-    tags: producto.tipoProducto
+    tags: producto.tipoProducto,
+    precio_sugerido: producto.precioSugerido
   };
 
   return this.http.post<any>(this.url, payload);

@@ -69,10 +69,11 @@ export class ProductoComponent {
 
 
   onGuardar() {
+    
   if (this.productoForm.valid && this.precioFinalCalculado !== undefined && this.precioFinalCalculado >= 0) {
     const producto = {
       ...this.productoForm.value,
-      precioFinal: this.precioFinalCalculado
+      precioSugerido: this.precioFinalCalculado
     };
 
     Swal.fire({
