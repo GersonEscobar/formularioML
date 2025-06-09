@@ -2,48 +2,51 @@
   <div class="card shadow p-4 w-100" style="max-width: 600px;">
     <h4 class="text-center mb-4">Formulario de Producto</h4>
 
-    <form [formGroup]="productoForm" (ngSubmit)="onSubmit()" class="row g-3">
+    <form [formGroup]="productoForm" (ngSubmit)="onSubmit()" class="row g-3" #form="ngForm">
       <div class="col-12">
         <label for="nombre" class="form-label">Nombre</label>
-        <input id="nombre" type="text" formControlName="nombre" class="form-control">
+        <input id="nombre" type="text" formControlName="nombre" class="form-control" />
       </div>
 
       <div class="col-12">
         <label for="marca" class="form-label">Marca</label>
-        <input id="marca" type="text" formControlName="marca" class="form-control">
+        <input id="marca" type="text" formControlName="marca" class="form-control" />
       </div>
 
       <div class="col-12">
         <label for="categoria" class="form-label">Categoría</label>
-        <input id="categoria" type="text" formControlName="categoria" class="form-control">
+        <input id="categoria" type="text" formControlName="categoria" class="form-control" />
       </div>
 
       <div class="col-12">
         <label for="tipoProducto" class="form-label">Tipo de Producto</label>
-        <input id="tipoProducto" type="text" formControlName="tipoProducto" class="form-control">
+        <input id="tipoProducto" type="text" formControlName="tipoProducto" class="form-control" />
       </div>
 
       <div class="col-12 text-center">
-        <button type="submit" class="btn btn-primary mt-3">
-          Calcular
-        </button>
+        <button type="submit" class="btn btn-primary mt-3">Calcular</button>
 
-        <button *ngIf="precioFinalCalculado !== undefined"
+        <button
+          *ngIf="precioFinalCalculado !== undefined"
           type="button"
           class="btn btn-success mt-3"
-          [disabled]="!productoForm.get('precioFinal')?.valid"
-          (click)="onGuardar()">
-    Guardar
-  </button>
-
+          (click)="onGuardar()"
+        >
+          Guardar
+        </button>
       </div>
-
-      
     </form>
 
-    <div *ngIf="precioFinalCalculado !== undefined"  class="alert alert-success mt-4 text-center">
-       <label for="precioFinal" class="form-label"><strong>Precio Final:</strong></label>
-       <input id="precioFinal" type="number" formControlName="precioFinal" class="form-control w-auto mx-auto" style="max-width: 200px;">
+    <div *ngIf="precioFinalCalculado !== undefined" class="alert alert-success mt-4 text-center">
+      <label for="precioFinal" class="form-label"><strong>Precio Final:</strong></label>
+      <input
+        id="precioFinal"
+        type="number"
+        [(ngModel)]="precioFinalCalculado"
+        name="precioFinal"
+        class="form-control w-auto mx-auto"
+        style="max-width: 200px;"
+      />
     </div>
   </div>
 </div>

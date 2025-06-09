@@ -18,8 +18,7 @@ export class ProductoComponent {
       nombre: ['', Validators.required],
       marca: ['', Validators.required],
       categoria: ['', Validators.required],
-      tipoProducto: ['', Validators.required],
-      precioFinal: [{value: null, disabled: true}, [Validators.required, Validators.min(0)]], 
+      tipoProducto: ['', Validators.required]
     });
   }
 
@@ -70,8 +69,11 @@ export class ProductoComponent {
 
 
   onGuardar() {
-  if (this.productoForm.valid) {
-    const producto = this.productoForm.value;
+  if (this.productoForm.valid && this.precioFinalCalculado !== undefined && this.precioFinalCalculado >= 0) {
+    const producto = {
+      ...this.productoForm.value,
+      precioFinal: this.precioFinalCalculado
+    };
 
     Swal.fire({
       title: 'Guardando...',
